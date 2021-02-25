@@ -1,0 +1,84 @@
+{% block new_content %}
+
+<link rel = "stylesheet" href = "../bootstrap.min.css" type="text/css">
+<link rel = "stylesheet" href = "../bootstrap-combined.min.css" type="text/css">
+<script type="text/javascript" src="../jquery.min.js"></script>
+<style>
+body{
+     color: #fff;
+    background-color: #363636;  
+}
+</style>
+ <div >
+    <ul class="nav nav-pills " style="">
+      <li role="presentation" id="sys" ><a href="../sys/">系统</a></li>
+      <li role="presentation" id="cpu"><a href="../cpu/">CPU</a></li>
+      <li role="presentation" id="mem"><a href="../ram/">内存</a></li>
+      <li role="presentation" id="disk"><a href="../disk/">硬盘</a></li>
+      <li role="presentation" id="process" style="background:white;" ><a href="../process/">进程</a></li>
+    </ul>
+ </div>
+<table class="table" style="table-layout:fixed;">
+    <tr>
+        <td>进程名</td>
+        <td>PID</td>
+        <td>启动命令</td>
+        <td style="padding-left:150px">进程路径</td>
+        <td style="padding-left:100px">状态</td>
+        <td>创建时间</td>
+        <td>内存占用率</td>
+        <td>关注状态</td>
+    </tr>
+   {% for process in processes %}
+    <tr>
+        <td><font color={{ process[8] }}>{{ process[0] }}</td>
+        <td><font color={{ process[8] }}>{{ process[1] }}</td>
+        <td><font color={{ process[8] }}>{{ process[2] }}</td>
+        <td style="padding-left:150px"><font color={{ process[8] }}>{{ process[3] }}</td>
+        <td style="padding-left:100px"><font color={{ process[8] }}>{{ process[4] }}</td>
+        <td><font color={{ process[8] }}>{{ process[5] }}</td>
+        <td><font color={{ process[8] }}>{{ process[6] }}</td>
+        {% if process[7] ==1 %}       
+            <td onclick ="change_state('{{process[0]}}','{{process[2]}}','{{process[3]}}','{{process[7]}}')"><font color={{ process[8] }}>已关注</td>
+        {% else %}
+            <td onclick = "change_state('{{process[0]}}','{{process[2]}}','{{process[3]}}','{{process[7]}}')"><font color={{ process[8] }}>未关注</td>
+        {% endif %}
+    </tr>
+     {% endfor %}
+</table>
+{% endblock %}
+
+<script>
+    let s = window.location.href.indexOf('?')
+    let url = ''
+    if (s > 0) {
+        url = window.location.href.slice(0, 36)
+        $("body").scrollTop(window.location.search.slice(3))
+    } else {
+        url = window.location.href
+    }
+$(
+    setInterval(function() {
+        let h = $("body").scrollTop();
+        window.location.href = "../process/" + '?h=' + h;
+    }, 30000)
+)
+function change_state(name,cmd,path,state){
+	//console.log(name,cmd,path,state==1)
+        var url = ''
+        if (state == 1) {
+           url = '../process/attention/del'
+
+        } else {
+           url = '../process/attention/add'
+        }
+         $.post(url, {
+          "name": name,
+          "cmd": cmd,
+          "path": path
+        }, function (result) {
+           //console.log(result);
+           window.location.href="../process/";
+        });
+}
+</script>

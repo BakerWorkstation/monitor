@@ -1,0 +1,35 @@
+{% block content %}
+ <link rel = "stylesheet" href = "../bootstrap.min.css" type="text/css">
+ <script type="text/javascript" src="../jquery.min.js"></script>
+<style>
+body{
+     color: #fff;
+    background-color: #363636;  
+}
+</style>
+ <div >
+    <ul class="nav nav-pills " style="">
+      <li role="presentation" id="sys" ><a href="../sys/" onclick="sys()">系统</a></li>
+      <li role="presentation" id="cpu"><a href="../cpu/">CPU</a></li>
+      <li role="presentation" id="mem"><a href="../ram/">内存</a></li>
+      <li role="presentation" id="disk"><a href="../disk/">硬盘</a></li>
+      <li role="presentation" id="process"><a href="../process/">进程</a></li>
+    </ul>
+{% block new_content %}
+    {% endblock %}
+{% endblock %}
+ </div>
+
+
+
+<script>
+function sys(){
+   var sys_id = document.getElementById("sys");
+   console.log()
+   sys_id.style.background = 'white';
+   //style="background:white;"
+}
+</script>
+
+
+

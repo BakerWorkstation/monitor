@@ -1,0 +1,61 @@
+{% block new_content %}
+
+<link rel = "stylesheet" href = "../bootstrap.min.css" type="text/css">
+ <script type="text/javascript" src="../jquery.min.js"></script>
+<style>
+body{
+     color: #fff;
+    background-color: #363636;  
+}
+</style>
+ <div >
+    <ul class="nav nav-pills " style="">
+      <li role="presentation" id="sys" ><a href="../sys/">系统</a></li>
+      <li role="presentation" id="cpu"><a href="../cpu/">CPU</a></li>
+      <li role="presentation" id="mem"><a href="../ram/">内存</a></li>
+      <li role="presentation" id="disk" style="background:white;"><a href="../disk/">硬盘</a></li>
+      <li role="presentation" id="process" ><a href="../process/">进程</a></li>
+    </ul>
+ </div>
+<table class="table">
+    <tr>
+        <td>设备</td>
+        <td>总容量</td>
+        <td>已使用</td>
+        <td>剩余</td>
+        <td>使用百分比</td>
+        <td>挂载点</td>
+        <td>类型</td>
+        <td>选项</td>
+    </tr>
+   {% for disk in disks %}
+    <tr>
+        <td>{{ disk.device }}</td>
+        <td>{{ disk.total }}</td>
+        <td>{{ disk.used }}</td>
+        <td>{{ disk.free }}</td>
+        <td>{{ disk.percent }}</td>
+        <td>{{ disk.mountpoint}}</td>
+        <td>{{ disk.fstype  }}</td>
+        <td>{{ disk.opts  }}</td>
+    </tr>
+     {% endfor %}
+</table>
+{% endblock %}
+
+<script>
+    let s = window.location.href.indexOf('?')
+    let url = ''
+    if (s > 0) {
+        url = window.location.href.slice(0, 36)
+        $("body").scrollTop(window.location.search.slice(3))
+    } else {
+        url = window.location.href
+    }
+$(
+    setInterval(function() {
+        let h = $("body").scrollTop();
+        window.location.href = "../disk/" + '?h=' + h;
+    }, 30000)
+)
+</script>

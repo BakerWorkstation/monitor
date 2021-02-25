@@ -1,0 +1,75 @@
+{% block new_content %}
+
+<link rel = "stylesheet" href = "../bootstrap.min.css" type="text/css">
+ <script type="text/javascript" src="../jquery.min.js"></script>
+<style>
+body{
+     color: #fff;
+    background-color: #363636;  
+}
+</style>
+ <div >
+    <ul class="nav nav-pills " style="">
+      <li role="presentation" id="sys"><a href="../sys/">系统</a></li>
+      <li role="presentation" id="cpu" style="background:white;" ><a href="../cpu/">CPU</a></li>
+      <li role="presentation" id="mem"><a href="../ram/">内存</a></li>
+      <li role="presentation" id="disk"><a href="../disk/">硬盘</a></li>
+      <li role="presentation" id="process"><a href="../process/">进程</a></li>
+    </ul>
+ </div>
+<table class="table">
+    <tr>
+        <td>物理CPU核心数</td>
+        <td>{{ cpu.p_CPU | int }}</td>
+    </tr>
+     <tr>
+        <td>逻辑CPU核心数</td>
+        <td>{{ cpu.CPU | int }}</td>
+    </tr>
+     <tr>
+        <td>最近1分钟平均负载</td>
+        <td>{{ cpu.averageload_1 | float }}</td>
+    </tr>
+     <tr>
+        <td>用户</td>
+        <td>{{ cpu.user }}</td>
+    </tr>
+     <tr>
+        <td>系统</td>
+        <td>{{ cpu.system }}</td>
+    </tr>
+     <tr>
+        <td>空闲</td>
+        <td>{{ cpu.idle }}</td>
+    </tr>
+ <tr>
+        <td>正在运行频率</td>
+        <td>{{ cpu.nowfrequency }}</td>
+    </tr>
+ <tr>
+        <td>最小运行频率</td>
+        <td>{{ cpu.minfrequency }}</td>
+    </tr>
+ <tr>
+        <td>最大运行频率</td>
+        <td>{{ cpu.maxfrequency }}</td>
+    </tr>
+</table>
+{% endblock %}
+
+<script>
+    let s = window.location.href.indexOf('?')
+    let url = ''
+    if (s > 0) {
+        url = window.location.href.slice(0, 36)
+        $("body").scrollTop(window.location.search.slice(3))
+    } else {
+        url = window.location.href
+    }
+$(
+    setInterval(function() {
+        let h = $("body").scrollTop();
+        window.location.href = "../cpu/" + '?h=' + h;
+    }, 30000)
+)
+</script>

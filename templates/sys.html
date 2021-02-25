@@ -1,0 +1,63 @@
+{% block new_content %}
+
+<link rel = "stylesheet" href = "../bootstrap.min.css" type="text/css">
+<script type="text/javascript" src="../jquery.min.js"></script>
+<style>
+body{
+     color: #fff;
+    background-color: #363636;  
+}
+</style>
+ <div >
+    <ul class="nav nav-pills " style="">
+      <li role="presentation" id="sys" style="background:white;" ><a href="../sys/">系统</a></li>
+      <li role="presentation" id="cpu"><a href="../cpu/">CPU</a></li>
+      <li role="presentation" id="mem"><a href="../ram/">内存</a></li>
+      <li role="presentation" id="disk"><a href="../disk/">硬盘</a></li>
+      <li role="presentation" id="process"><a href="../process/">进程</a></li>
+    </ul>
+ </div>
+
+<table class="table">
+    <tr>
+        <td>操作系统</td>
+        <td>{{ syss.system }}</td>
+    </tr>
+     <tr>
+        <td>系统版本信息</td>
+        <td>{{ syss.version }}</td>
+    </tr>
+     <tr>
+        <td>处理器信息</td>
+        <td>{{ syss.architecture }}</td>
+    </tr>
+     <tr>
+        <td>现在时间</td>
+        <td>{{ now_time }}</td>
+    </tr>
+     <tr>
+        <td>开机时间</td>
+        <td>{{ start_time }}</td>
+    </tr>
+     <tr>
+        <td>运行时间</td>
+        <td>{{ syss.run_time }}</td>
+    </tr>
+</table>
+{% endblock %}
+<script>
+    let s = window.location.href.indexOf('?')
+    let url = ''
+    if (s > 0) {
+        url = window.location.href.slice(0, 36)
+        $("body").scrollTop(window.location.search.slice(3))
+    } else {
+        url = window.location.href
+    }
+$(
+    setInterval(function() {
+        let h = $("body").scrollTop();
+        window.location.href = "../sys/" + '?h=' + h;
+    }, 30000)
+)
+</script>
